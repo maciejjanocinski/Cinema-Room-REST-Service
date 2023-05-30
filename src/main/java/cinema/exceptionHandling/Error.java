@@ -1,9 +1,12 @@
 package cinema.exceptionHandling;
 
-public class ErrorResponse {
+public class Error {
     private String error;
 
-    public ErrorResponse(String error) {
+    public Error() {
+    }
+
+    public Error(String error) {
         this.error = error;
     }
 

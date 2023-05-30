@@ -1,18 +1,19 @@
 package cinema.service;
 
-import cinema.entity.*;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import cinema.entity.PurchaseResponse;
+import cinema.entity.Room;
+import cinema.entity.Seat;
+import cinema.entity.Stats;
+import cinema.exceptionHandling.CinemaException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.lang.Error;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -37,7 +38,7 @@ public class RoomService {
 
         if (ticket.getColumn() > room.getTotal_columns() || ticket.getRow() > room.getTotal_rows()
                 || ticket.getColumn() < 1 || ticket.getRow() < 1) {
-            return new ResponseEntity<>(new java.lang.Error("The number of a row or a column is out of bounds!"), HttpStatus.BAD_REQUEST);
+            throw new CinemaException("The number of a row or a column is out of bounds!");
         }
 
         List<Seat> availableSeats = room.getAvailable_seats().stream()
@@ -55,7 +56,7 @@ public class RoomService {
         }
 
 
-        return new ResponseEntity<>(new java.lang.Error("The ticket has been already purchased!"), HttpStatus.BAD_REQUEST);
+        throw new CinemaException("The ticket has been already purchased!");
 
     }
 
@@ -69,7 +70,7 @@ public class RoomService {
                 stats.substractIncome(seat.getPrice());
                 return new ResponseEntity<>(Map.of("returned_ticket", seat), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(new java.lang.Error("Wrong token!"), HttpStatus.BAD_REQUEST);
+               throw new CinemaException("Wrong token!");
             }
 
     }
@@ -77,7 +78,7 @@ public class RoomService {
     public ResponseEntity<Object> showStats(Optional<String> password) {
 
         if(password.isEmpty()){
-            return new ResponseEntity<>(new java.lang.Error("The password is wrong!"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new Error("The password is wrong!"), HttpStatus.UNAUTHORIZED);
         }
 
 

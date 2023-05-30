@@ -1,18 +1,12 @@
 package cinema.controllers;
 
-import cinema.entity.Error;
 import cinema.entity.Room;
 import cinema.entity.Seat;
-
-
 import cinema.service.RoomService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 
 @RestController
